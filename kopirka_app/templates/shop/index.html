@@ -1,0 +1,687 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block menu %}
+<div class="menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-6 column-left">
+                <aside id="column-left">
+                    <nav class="navbar-default">
+                        <div class="menu-heading js-nav-menu">Каталог</div>
+                        <div class="vertical-wrapper js-dropdown-menu js-dropdown-open active">
+                            <ul class="level0">
+                                {% for categories in category %}
+                                <li><a href="{% url 'list' categories.slug %}">{{ categories.title }}</a>
+                                    {% if categories.children.all %}
+
+                                    <div class="dropdown-content">
+                                        <ul class="level1">
+                                            <li class="sub-menu col-3">
+                                                <a href="{% url 'list' categories.slug %}">{{ categories }}</a>
+                                                <ul class="level2">
+                                                    {% for pod_category in categories.children.all %}
+                                                    <li class="col-inner"><a href="{% url 'list' pod_category.slug %}">{{ pod_category }}</a>
+                                                    </li>
+                                                    {% endfor %}
+
+                                                </ul>
+                                            </li>
+
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                        <div class="banner">
+                                            <a href="#"><img src="{% static 'shop/img/megamenubanner.png' %}"
+                                                    alt="images" class="img-responsive"></a>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+
+                                <li class="sub-form-li">
+                                    <div>
+                                        Подписываться
+                                    </div>
+                                    <form action="#" class="sub-form">
+                                        <input type="text" name="e" class="form-control"
+                                            placeholder="Введите почту">
+                                        <button type="submit" class="btn btn-sub">Отправить<span
+                                                class="ion-chevron-right"></span></button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </aside>
+            </div>
+            <div class="col-md-9 col-sm-8 col-xs-6 column-right">
+            
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="menu-title">Меню</span>
+                </button>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="menubar js-menubar">
+                        <li class=" menu-homepage menu-item-has-child dropdown">
+                            <a href="/"><i class="fa fa-home"></i>Главная</a>
+                        </li>
+                        <li class="dropdown menu-others-page menu-item-has-child">
+                            <a href="#" title="Others">Связаться с нами</a>  
+                        </li>
+                        <li class="dropdown menu-others-page menu-item-has-child">
+                            <a href="#" title="Others">О нас</a>  
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<section class="slide">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9 col-sm-12 col-xs-12">
+                <div class="row top-row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="single-item js-banner">
+
+                            {% for item_slider in slider %}
+
+                            <div class="slide-img">
+                                <img style="object-fit: cover;
+                                width: 890px;
+                                height: 470px;" src="{{ item_slider.img.url }}" alt="images"
+                                    class="img-reponsive">
+                                <div class="slide-content">
+                                    <h5 class="brand" style="color: dimgray;">{{ item_slider.category }}</h5>
+                                    <h3 style="color:forestgreen"><span class="strong">{{ item_slider.title| truncatewords:5 }}</span><br>Для всех</h3>
+                                   
+                                </div>
+                                <a href="{% url 'deteil' item_slider.slug%}" class="slide-button">Посмотреть</a>
+                            </div>
+                            {% endfor %}
+
+
+
+
+                      
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="sub-banner">
+                            <a href="#"><img src="{% static 'shop/img/img_add/Surface-Book-3_large.jpg' %}" alt="images"
+                                    class="img-reponsive"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="sub-banner">
+                            <a href="#"><img src="{% static 'shop/img/img_add/image.jpg' %}" alt="images"
+                                    class="img-reponsive"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sub-banner"></div>
+</section>
+<section class="bigdeal">
+    <div class="container">
+        <div class="label label-1">В продаже</div>
+        <div class="sale-list">
+            <div class="row">
+
+                <div class="col-md-7 col-sm-12">
+                    <div class="product-item ver4 top-inner">
+                        <div class="prod-item-img">
+                            <a href="{% url 'deteil' produkt_save_one.slug %}"><img src="{{ produkt_save_one.img.url }}"
+                                    alt="images" class="img-reponsive"></a>
+                            <div class="prod-choose">
+                                <div class="prod-color">
+                                    <span class="dot"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                </div>
+                                <div class="prod-price">
+                                    <span class="price old">{{ produkt_save_one.price }} ₽</span>
+                                    <span class="price-ver2 price-lg">{{ produkt_save_one.get_sale }} ₽</span>
+                                    <span class="productPriceDiscount">Сэкономьте<br><span class="strong">{{ produkt_save_one.save_money }} ₽</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="prod-info">
+                            <h3><a class="prod-name" href="{% url 'deteil' produkt_save_one.slug %}" title="">{{ produkt_save_one.title }}</a></h3>
+                            <p class="brand">{{ produkt_save_one.main_category }}</p>
+                            <div class="prod-description">
+                                <ul>
+                                    <li>{{ produkt_save_one.descriptions| truncatewords:30 }}</li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 col-sm-12 ">
+                    <div class="product-item ver1 padding--bottom margin-r">
+                        <div class="prod-item-img set--width">
+                            <a class="image" href="{% url 'deteil' produkt_new_one.slug %}"><img src="{{ produkt_new_one.img.url }}" alt="images"
+                                    class="img-responsive"></a>
+                        </div>
+
+                        <div class="prod-info ver1">
+                            <h3><a href="{% url 'deteil' produkt_new_one.slug %}" title="">{{ produkt_new_one.title| truncatewords:10 }}</a></h3>
+                            {% if produkt_new_one.discount %}
+                            <div class="prod-price">
+                                <span class="price old">{{ produkt_new_one.price }} ₽</span>
+                                <span class="price">{{ produkt_new_one.get_sale }} ₽</span>
+                            </div>
+                            {% endif %}
+                            {% if not produkt_new_one.discount %}
+                            <div class="prod-price">
+                                <span class="price">{{ produkt_new_one.price }} ₽</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="label label-2 blue">{{ produkt_new_one.prefix }}</div>
+                    </div>
+                    <div class="product-item ver1 margin-r ">
+                        <div class="prod-item-img set--width">
+                            <a class="image" href="{% url 'deteil' produkt_hit_one.slug %}"><img src="{{ produkt_hit_one.img.url }}" alt="images"
+                                    class="img-responsive"></a>
+                        </div>
+                        <div class="prod-info ver1">
+                            <h3><a href="{% url 'deteil' produkt_hit_one.slug %}" title="">{{ produkt_hit_one.title }}</a></h3>
+
+                            {% if produkt_hit_one.discount %}
+                            <div class="prod-price">
+                                <span class="price old">{{ produkt_hit_one.price }} ₽</span>
+                                <span class="price">{{ produkt_hit_one.get_sale }} ₽</span>
+                            </div>
+                            {% endif %}
+                            {% if not produkt_hit_one.discount %}
+                            <div class="prod-price">
+                                <span class="price">{{ produkt_hit_one.price }} ₽</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="label label-2 red">{{ produkt_hit_one.prefix }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="banner_1">
+    <div class="container">
+        <a href="#"><img src="img/banner/ad2.jpg" alt="images" class="img-responsive"></a>
+    </div>
+</div>
+<section class="popular-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                <div class="heading-v2">
+                    <ul class="breadcrumb-ver1">
+                        <li class="active"><a data-toggle="pill" href="#popular">Новейшие</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div id="popular" class="tab-pane fade in active">
+                        <div class="pp-list">
+                            <div class="row top-row">
+
+                        {% for produkts in produkt_new %}
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="{% url 'deteil' produkts.slug %}"><img style="width: 200px; height: 200px;" src="{{ produkts.img.url }}" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">Добавить в корзину</a>
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">{{ produkts.title| truncatewords:10 }}</a></h3>
+                                            <div class="p-price">
+                                                {% if produkts.discount %}
+                                                <div class="prod-price">
+                                                    <span class="price old">{{ produkts.formattedprice }} ₽</span>
+                                                    <span class="price">{{ produkts.formattedprice_discount }} ₽</span>
+                                                </div>
+                                                {% endif %}
+                                                {% if not produkts.discount %}
+                                                <div class="prod-price">
+                                                    <span class="price">{{ produkts.formattedprice }} ₽</span>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+
+                              
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="top" class="tab-pane fade">
+                        <div class="pp-list">
+                            <div class="row top-row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/camera.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Sony Alpha a5000 Mirrorless Digital Camera with
+                                                    16-50mm...</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price old">$299.6</span>
+                                                <span class="price">$109.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/lens.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Sony SEL1670Z Vario-Tessar T E 16-70mm F4 ZA OSS</a>
+                                            </h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price black">$199.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/ear.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Beats EP Wired On-Ear Headphone - Rose</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price black">$199.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/watch.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">PowerLead Pwah PL-N20 Bluetooth 4.0 Smart Watch...</a>
+                                            </h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price old">$299.6</span>
+                                                <span class="price">$109.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/canonpixma.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Canon PIXMA Pro-100 Wireless Color Professional
+                                                    Inkjet...</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price old">$299.6</span>
+                                                <span class="price">$109.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/sound4.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Sony SBH52BLACK Sony Stereo Bluetooth Headset</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price black">$199.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="new" class="tab-pane fade">
+                        <div class="pp-list">
+                            <div class="row top-row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/camera.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Sony Alpha a5000 Mirrorless Digital Camera with
+                                                    16-50mm...</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price old">$299.6</span>
+                                                <span class="price">$109.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/lens.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Sony SEL1670Z Vario-Tessar T E 16-70mm F4 ZA OSS</a>
+                                            </h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price black">$199.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/ear.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Beats EP Wired On-Ear Headphone - Rose</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price black">$199.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/watch.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">PowerLead Pwah PL-N20 Bluetooth 4.0 Smart Watch...</a>
+                                            </h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price old">$299.6</span>
+                                                <span class="price">$109.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/canonpixma.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Canon PIXMA Pro-100 Wireless Color Professional
+                                                    Inkjet...</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price old">$299.6</span>
+                                                <span class="price">$109.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 no-padding-right">
+                                    <div class="product-item ver2">
+                                        <div class="prod-item-img bd-style-2">
+                                            <a href="#"><img src="img/products/sound4.jpg" alt="images"
+                                                    class="img-responsive"></a>
+                                            <div class="button">
+                                                <a href="#" class="addcart addcart-v2">ADD TO CART</a>
+                                                <a href="#" class="view"><i class="fa fa-eye"
+                                                        aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="prod-info">
+                                            <h3><a href="#">Sony SBH52BLACK Sony Stereo Bluetooth Headset</a></h3>
+                                            <div class="ratingstar sm">
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                                <span class="number">(12)</span>
+                                            </div>
+                                            <div class="p-price">
+                                                <span class="price black">$199.69</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-5 col-xs-12">
+                <aside class="widget brand-v1">
+                    <div class="heading-v1">
+                        <h3>Уголок скидок</h3>
+                    </div>
+                    <div class="brand-list-v1">
+
+                        {% for item in produkt_all %}
+                        {% if item.discount %}
+                        <div class="product-item ver1 bd-style">
+                            <div class="prod-item-img">
+                                <a href="#"><img src="{{ item.img.url }}" alt="images"
+                                        class="img-responsive"></a>
+                            </div>
+                            <div class="prod-info">
+                                <h3><a href="#">{{ item.title }}</a></h3>
+                                <div class="p-price">
+                                    {% if item.discount %}
+                                    <div class="prod-price">
+                                        <span class="price old">{{ item.formattedprice }} ₽</span>
+                                        <span class="price">{{ item.formattedprice_discount }} ₽</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if not item.discount %}
+                                    <div class="prod-price">
+                                        <span class="price">{{ item.formattedprice }} ₽</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+
+
+                 
+                  
+                    </div>
+               
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+{% endblock %}

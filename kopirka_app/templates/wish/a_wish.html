@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+<section class="checkout-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Список желаний</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="/">Гланая</a></li>
+               
+                <li><a class="active" href="">Список желаний</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="checkout-cart-form">
+            <div class="row">
+                <div class="col-md-8 col-sm-12">
+                    {% if wish %}
+                    <table class="table shop_table">
+                        <thead>
+                            <tr>
+                                <th class="product-thumbnail">Изображение</th>
+                                <th class="product-name">Название</th>
+                                <th class="product-price">Скидка</th>
+                                <th class="quantity">Цена</th>
+                                <th class="product-subtotal"></th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+
+                            {% for item in wish %}
+                            <tr class="cart_item">
+                                <td class="product-thumbnail"><a href="{% url 'deteil' item.product.slug %}"><img src="{{ item.product.img.url }}" alt="images" class="img-responsive"></a></td>
+                               
+                                <td class="product-name" style="padding: 30px 10px 30px 10px;">
+                                    <a href="{% url 'deteil' item.product.slug %}">{{ item.product.title }}</a>
+                                </td>
+                                {% if item.product.discount %}
+                                <td class="product-price">
+                                    <div class="label pink">{{ item.product.discount }} %</div>
+                        
+                                </td>
+                                {% else %}
+                                <td class="product-price">
+                                    <p class="price">-</p>
+                                </td>
+                                {% endif %}
+
+                                <td class="product-price">
+                                    {% if item.product.discount %}
+                                    <p class="price">{{ item.product.formattedprice_discount }}₽</p>
+                                    {% else %}
+                                    <p class="price">{{ item.product.formattedprice }}₽</p>
+                                    {% endif %}
+                                </td>
+
+                          
+                 
+                                <td class="product-quantity">
+                                        <a href="{% url 'remove_from_wish' item.id %}" class="close--two">✖</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+            
+                    </table>
+                    {% else%}
+                    <p style=" font-size: 30px;margin-bottom: 60px;">Ваш список желаний пуст</p>
+                    {% endif %}
+                </div>
+
+
+               
+
+
+            </div>
+            <div class="shopping-cart-option">
+                <div class="button-option">
+                    <a href="/" class="btn-continue-shopping active">Продолжить покупки</a>
+                    <a href="{% url 'remove_full' %}" class="btn-clear">Очистить список</a>
+                </div>
+   
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

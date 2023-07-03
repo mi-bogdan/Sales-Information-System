@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+
+{% block menu %}
+
+{% menu %}
+
+{% endblock %}
+
+
+{% block content %}
+<section class="checkout-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Корзина</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="/">Гланая</a></li>
+                {% if request.user.is_authenticated %}
+                
+                <li><a class="active" href="{% url 'cart' %}"">Корзина</a></li>
+                {% else %}
+
+                <li><a class="active" href="{% url 'cart_anonim' %}">Корзина</a></li>
+                {% endif %}
+                
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="checkout-1.html" class="active">01. Корзина</a>
+            </li>
+            <li>
+                <a href="checkout-2.html">02. Оформить заказ</a>
+            </li>
+            <li>
+                <a href="checkout-3.html" title="">03. Заказ оформлен</a>
+            </li>
+        </ul>
+        <div class="checkout-cart-form">
+            <div class="row">
+                <div class="col-md-8 col-sm-12">
+                    {% if items %}
+                    <table class="table shop_table">
+                        <thead>
+                            <tr>
+                                <th class="product-thumbnail">Изображение</th>
+                                <th class="product-name">Название</th>
+                                <th class="product-price">Цена</th>
+                                <th class="quantity">Количество</th>
+                                <th class="product-subtotal">Сумма</th>
+                                <th class="product-subtotal"></th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+
+                            {% for item in items %}
+                            <tr class="cart_item">
+                                <td class="product-thumbnail"><a href=""><img src="{{ item.product.img.url }}" alt="images" class="img-responsive"></a></td>
+                               
+                                <td class="product-name" style="padding: 30px 10px 30px 10px;">
+                                    <a href="">{{ item.product.title }}</a>
+                                </td>
+                                {% if item.product.discount %}
+                                <td class="product-price">
+                                    <div class="label pink">{{ item.product.discount }} %</div>
+                                    <p class="price">{{ item.product.formattedprice_discount }}₽</p>
+                                </td>
+                                {% else %}
+                                <td class="product-price">
+                                    <p class="price">{{ item.product.formattedprice }}₽</p>
+                                </td>
+                                {% endif %}
+
+                                <td class="product-quantity">
+                                    <div class="quantity">
+                                        <button class="minus"><a href="{% url 'clean_up_quantity' item.id %}">-</a></button>
+                                        <p class="number">{{ item.quantity }}</p>
+                                        <button class="plus"><a href="{% url 'add_quantity' item.id %}">+</a></button>
+                                    </div>
+                                   
+
+                                </td>
+                 
+                                <td class="product-price product-subtotal">
+                                    <p class="price">{{ item.price }}₽</p>
+                                </td>
+                                <td class="product-quantity">
+                                    {% if request.user.is_authenticated %}
+                                        <a href="{% url 'cart_remove' item.id %}" class="close--two">✖</a>
+                                    {% else %}
+                                        <a href="{% url 'cart_remove_anonim' item.id %}" class="close--two">✖</a>
+                                    {% endif %}
+                                    
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                     
+                    </table>
+                    {% else%}
+                    <p style="align-items: center; text-align: center; font-size: 30px;">Ваша корзина пустая</p>
+                    {% endif %}
+                </div>
+
+
+                <div class="col-md-4 col-sm-12">
+                    <div class="aside-shopping-cart-total">
+                        <h2>Итог Корзины</h2>
+                        <ul>
+                       
+                           
+                          
+                            {% if cart.total_price == None %}
+                            <li><span class="text">Итого:</span><span class="cart-number big-total-number">0 ₽</span></li>
+                            {% else %}
+                            <li><span class="text">Итого:</span><span class="cart-number big-total-number">{{cart.total_price}} ₽</span></li>
+                            {% endif %}
+                        </ul>
+                        <div class="process">
+                            <a href="{% url 'order' %}" class="btn-checkout">Оформить заказ</a>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                
+            </div>
+            <div class="shopping-cart-option">
+                <div class="button-option">
+                    <a href="#" class="btn-continue-shopping active">Продолжить покупки</a>
+                    <a href="#" class="btn-clear">Очистить корзину</a>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

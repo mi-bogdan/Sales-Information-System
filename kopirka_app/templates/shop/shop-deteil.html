@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+
+<section class="shop-single-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Подробная информация</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="#home">Главная</a></li>
+                <li><a class="active" href="#detail">Подробная информация</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="widget-shop-single">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="shop-single-item-img">
+                        <div class="main-img">
+
+                            <div class="main-img-item">
+                                <a href="#"><img src="{{ produkt.img.url }}" alt="images" class="img-responsive"></a>
+                            </div>
+
+                            {% for images in produkt.imageproduct_set.all %}
+                            <div class="main-img-item">
+                                <a href="#"><img src="{{ images.img.url }}" alt="images" class="img-responsive"></a>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <ul class="multiple-img-list">
+
+                            <li>
+                                <div class="product-col">
+                                    <div class="img">
+                                        <a href="#"><img src="{{ produkt.img.url }}" alt="images"
+                                                class="img-responsive"></a>
+                                    </div>
+                                </div>
+                            </li>
+
+                            {% for images in produkt.imageproduct_set.all %}
+                            <li>
+                                <div class="product-col">
+                                    <div class="img">
+                                        <a href="#"><img src="{{ images.img.url }}" alt="images"
+                                                class="img-responsive"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="shop-sing-item-detail">
+                        <h3><a href="#">{{ produkt.title }}</a></h3>
+                        {% for prod in produkt.feature_prod.all %}
+                            {% if prod.title == 'Бренд' %}
+                        <div class="brandname">от <strong>{{ prod.value }}</strong></div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="ratingstar">
+                            <span class="number">Всего отзывов к продукту (12)</span>
+                            <a class="review">Оставить отзыв</a>
+                        </div>
+                        {% if produkt.discount %}
+                        <div class="prod-price">
+                            <span class="price old">{{ produkt.formattedprice }} рублей</span>
+                            <span class="price">{{ produkt.formattedprice_discount }} рублей</span>
+                        </div>
+                        {% endif %}
+                        {% if not produkt.discount %}
+                        <div class="prod-price">
+                            <span class="price">{{ produkt.formattedprice }} рублей</span>
+                        </div>
+                        {% endif %}
+                        <div class="description">
+                            <p>{{ produkt.descriptions| truncatewords:40 }}</p>
+
+                        </div>
+                        <div class="group-button">
+                
+                            <div class="button-ver2">
+                                <a href="" class="link-ver1 addcart-ver2"><span class="icon"></span>В корзину</a>
+                                
+                            </div>
+                        </div>
+                        <div class="product-feature">
+                            <ul class="product-feature-1">
+                                <li><strong>В наличие:</strong> Да</li>
+                                
+                            </ul>
+                            <ul class="product-feature-2">
+                                <li><strong>SKU:</strong> {{ produkt.sku }}</li>
+                                <li><strong>Категория:</strong> {{ produkt.main_category }} | {{ produkt.category }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-detail-bottom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#desc">Описание</a></li>
+                    <li><a data-toggle="tab" href="#special">Характеристики</a></li>
+                    <li><a data-toggle="tab" href="#review">Отзывы</a></li>
+                </ul>
+                <div class="tab-content padding-lr">
+                    <div id="desc" class="tab-pane fade in active">
+                        <p style="font-size: 15px;">{{ produkt.descriptions }}</p>
+
+                    </div>
+                    <div id="special" class="tab-pane fade">
+                        <table style="margin-top: 15px;">
+                            {% for feature_produkt in produkt.feature_prod.all %}
+                            <tr>
+                                <td style="font-size: 15px; padding-right: 10px;">
+                                    {{ feature_produkt.title }}
+                                </td>
+                                <td style="font-size: 15px;">
+                                   -{{ feature_produkt.value }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+
+                    </div>
+                    <div id="review" class="tab-pane fade">
+
+                        <div class="blog-comment">
+                            <div class="blog-comment-list">
+                                <ul class="commentlist">
+                                    <li>
+                                        {% for reviews in produkt.get_reviews %}
+                                        <div class="comment">
+                                       
+                                            <div class="comment-box">
+                                                <div class="comment-author-meta">
+                                                    <strong>{{ reviews.name }}</strong>
+                                                    <div class="comment-post-date">
+                                                        <span class="date">{{ reviews.create_at }}</span>
+                                                        <a href="#formReview" class="comment-reply" onclick="AddReview('{{ reviews.id }}','{{reviews.name }}')">Ответить</a>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="comment-content">
+                                                {{ reviews.text }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% for rew in reviews.reviews_set.all %}
+                                        <ul class="comment-child">
+                                            <li>
+                                                <div class="comment">
+                                              
+                                                    <div class="comment-box">
+                                                        <div class="comment-author-meta">
+                                                            <div class="comment-author-meta">
+                                                                <strong>{{ rew.name }}</strong>
+                                                                <div class="comment-post-date">
+                                                                    <span class="date">{{ rew.create_at }}</span>
+                                                                    
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-content">
+                                                        {{ rew.text }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+                        <div class="blog-comment-form">
+                            <div class="blog-comment-title">
+                                <h2 class="blog-title">Оставьте свой отзыв</h2>
+                            </div>
+
+                            <form action="{% url 'reviews' produkt.slug %}" method="post" accept-charset="utf-8" class="comment-form" id="formReview" >
+                                {% csrf_token %}
+                                <input type="hidden" name="perents" id="contactperence" class="form-control"  value="" >
+                                <div class="form-group">
+                                    <input type="text" name="name" placeholder="Имя*" class="form-control" id="author" value="" aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="email" placeholder="Почта *" class="form-control" id="email" value="" aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="contactcomment" name="text" class="form-control" placeholder="Комментарий "></textarea>
+                                </div>
+                                <button type="submit" class="btn-submit-comment">Отправить</button>
+                            </form>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</section>
+<script>
+    function AddReview(id, name) {
+        document.getElementById("contactcomment").innerText = name + ', ';
+        document.getElementById("contactperence").value = id;
+    }
+</script>
+{% endblock %}

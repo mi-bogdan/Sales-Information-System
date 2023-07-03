@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+
+<section class="checkout-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Заказ выполнен</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="/">Главная</a></li>
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'cart' %}" class="active">Корзина</a>
+                {% else %}
+                <a href="{% url 'cart_anonim' %}" class="active">Корзина</a>
+                {% endif %}
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">Корзина</a>
+            </li>
+            <li>
+                <a href="#">Формирование заказа</a>
+            </li>
+            <li>
+                <a class="active" href="#" title="">Заказ выполнен</a>
+            </li>
+        </ul>
+        <div class="complete-page text-center">
+            <h2 class="status"><span class="ion-checkmark-circled fa-4 icon-check"></span>Поздравляем! Ваш<span> заказ</span> отправлен.</h2>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+    
+    

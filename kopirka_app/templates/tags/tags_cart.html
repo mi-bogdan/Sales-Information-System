@@ -1,0 +1,66 @@
+{% load static %}
+
+<div class="block block-2">
+    <div class="cart">
+        <a href="#" title="" id="label3" class="dropdown-toggle" data-toggle="dropdown"
+            role="button" aria-haspopup="true" aria-expanded="false">
+            <div class="photo photo-cart">
+                <img src="{% static 'shop/img/cart.png' %}" alt="images" class="img-reponsive">
+                <span class="lbl">{{ lists|length }}</span>
+            </div>
+            <p class="inform inform-cart">
+                <span class="strong">Корзина<br></span>
+                {% if carts.total_price %}
+                <span class="price-cart">₽ {{ carts.total_price }}</span>
+                {% else %}
+                <span class="price-cart">₽ 0</span>
+                {% endif %}
+            </p>
+        </a>
+        <div class="dropdown-menu dropdown-cart" aria-labelledby="label3">
+            <ul>
+                {% if lists %}
+                {% for item in lists %}
+                <li>
+                    <div class="item-order">
+                        <div class="item-photo" style="width: 80px;">
+                            <a href="{% url 'deteil' item.product.slug %}"><img src="{{item.product.img.url}}"
+                                    alt="images" class="img-responsive"></a>
+                        </div>
+                        <div class="item-content">
+                            <h3><a href="{% url 'deteil' item.product.slug %}" title="">{{ item.product.title|truncatechars:15 }}</a></h3>
+                            <p class="price black">₽ {{ item.product.price }}</p>
+                            <p class="quantity">x{{ item.quantity }}</p>
+                        </div>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                    <div class="btn-delete"><a href="{% url 'cart_remove' item.id %}" title="" class="btndel">x</a></div>
+                    {% else %}
+                    <div class="btn-delete"><a href="{% url 'cart_remove_anonim' item.id %}" title="" class="btndel">x</a></div>
+                    {% endif %}
+                </li>
+                {% endfor %}
+                {% else %}
+                <p>Сначала добавьте товар в корзину</p>
+                {% endif %}
+        
+            </ul>
+            <div class="content-1">
+                {% if carts.total_price == None %}
+                <span class="total">Итого: <strong class="price black">₽ 0</strong></span>
+                {% else %}
+                <span class="total">Итого: <strong class="price black">₽ {{ carts.total_price }}</strong></span>
+                {% endif %}
+                <span class="quantity"><strong class="number">{{ lists|length }}</strong> Товаров</span>
+            </div>
+            <div class="content-2">
+             
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'cart' %}" class="addcart">Открыть корзину</a>
+                {% else %}
+                <a href="{% url 'cart_anonim' %}" class="addcart">Открыть корзину</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

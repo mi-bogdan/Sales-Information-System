@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load tags_menu %}
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+
+{% block content %}
+<div style="width: 500px; margin: 50px auto;">
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <!-- Email input -->
+        {% for errors in login_form.non_field_errors %}
+        <p style="color: red; padding-bottom: 10px;">{{ errors }}</p>
+        {% endfor %}
+        <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example1">Логин</label>
+            <input type="text" id="form2Example1" class="form-control" name="username" />
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4" style="margin-bottom: 12px;">
+            <label class="form-label" for="form2Example2">Пароль</label>
+            <input type="password" id="form2Example2" class="form-control" name="password" />
+        </div>
+
+    
+
+        <!-- Submit button -->
+        <button style="width: 120px; border-radius: 20px; margin: 0px auto;" type="submit"
+            class="btn btn-success btn-block mb-4">Войти</button>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+            <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+            
+        </div>
+    </form>
+</div>
+{% endblock %}

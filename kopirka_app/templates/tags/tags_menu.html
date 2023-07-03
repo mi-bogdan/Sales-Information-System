@@ -1,0 +1,79 @@
+{% load static %}
+
+<div class="menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-6 column-left">
+                <aside id="column-left">
+                    <nav class="navbar-default">
+                        <div class="menu-heading js-nav-menu ">Каталог</div>
+                        <div class="vertical-wrapper v3 js-dropdown-menu">
+                            <ul class="level0">
+                                {% for categories in category %}
+                                <li><a href="{% url 'list' categories.slug %}">{{ categories.title }}</a>
+                                    {% if categories.children.all %}
+
+                                    <div class="dropdown-content">
+                                        <ul class="level1">
+                                            <li class="sub-menu col-3">
+                                                <a href="{% url 'list' categories.slug %}">{{ categories }}</a>
+                                                <ul class="level2">
+                                                    {% for pod_category in categories.children.all %}
+                                                    <li class="col-inner"><a href="{% url 'list' pod_category.slug %}">{{ pod_category }}</a>
+                                                    </li>
+                                                    {% endfor %}
+
+                                                </ul>
+                                            </li>
+
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                        <div class="banner">
+                                            <a href="#"><img src="{% static 'shop/img/megamenubanner.png' %}"
+                                                    alt="images" class="img-responsive"></a>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+
+                                <li class="sub-form-li">
+                                    <div>
+                                        Подписываться
+                                    </div>
+                                    <form action="#" class="sub-form">
+                                        <input type="text" name="e" class="form-control"
+                                            placeholder="Your email here...">
+                                        <button type="submit" class="btn btn-sub">Отправить<span
+                                                class="ion-chevron-right"></span></button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </aside>
+            </div>
+            <div class="col-md-9 col-sm-8 col-xs-6 column-right">
+              
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="menu-title">Меню</span>
+                </button>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="menubar js-menubar">
+                        <li class=" menu-homepage menu-item-has-child dropdown">
+                            <a href="/"><i class="fa fa-home"></i>Главная</a>
+                        </li>
+                        <li class="menu-collection-page menu-item-has-child dropdown">
+                            <a href="#" title="Marketplace">связаться с нами</a>
+                            
+                        </li>
+                        <li class="menu-collection-page menu-item-has-child dropdown">
+                            <a href="#" title="Marketplace">О нас</a>
+            
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

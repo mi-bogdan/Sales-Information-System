@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load tags_menu %}
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+<div style="width: 500px; margin: 50px auto;">
+    <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example1">Логин</label>
+            <input type="text" id="form2Example1" class="form-control" name="username" />
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example2">Почта</label>
+            <input type="email" id="form2Example2" class="form-control" name="email" />
+        </div>
+
+        <div class="form-outline mb-4" style="margin-bottom: 12px;">
+            <label class="form-label" for="form2Example2">Пароль</label>
+            <input type="password" id="form2Example3" class="form-control" name="password" />
+
+        </div>
+
+
+
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <button style="width: 180px; border-radius: 20px; margin: 0px auto;" type="submit"
+            class="btn btn-success btn-block mb-4">Зарегистрироваться</button>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+            <p>Есть уже аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+     
+        </div>
+    </form>
+</div>
+{% endblock %}

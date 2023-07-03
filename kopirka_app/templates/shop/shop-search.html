@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+<section class="shop-list-v2-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">shop list</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="#home">Home</a></li>
+                <li><a class="active" href="#shop">Shop</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="widget-banner">
+            <a href="#" class="images"><img src="{% static 'shop/img/img_add/list5.jpg' %}" alt="images"
+                    class="img-responsive"></a>
+            <div class="banner-text">
+                <h2>Just Press</h2>
+                <p>Mini camera by Instax</p>
+            </div>
+            <div class="banner-button">
+                <a href="#" title="button" class="btn-getit">Get It</a>
+            </div>
+        </div>
+
+
+        <div class="widget-product-list">
+            <div class="row">
+                <div class="col-md-3 col-xs-12">
+                    <div class="filter-block">
+
+
+
+                        <div class="filter-block-shop filter-cate">
+                            <div class="block-title">
+                                <h3>Категории</h3>
+                            </div>
+                            <div class="block-content">
+                                <ul>
+
+                                    {% for categor in category %}
+                                    <li class="active">
+                                        {% if not categor.children.all %}
+                                        <a href="{% url 'list' categor.slug %}">{{ categor.title }}</a>
+                                        {% endif %}
+                                        {% if categor.children.all %}
+                                        <p>{{ categor.title }}</p>
+
+                                        {% endif %}
+                                        <span class="number">(08)</span>
+                                    </li>
+                                    {% for children_category in categor.children.all %}
+                                    <li class="active" style="padding-left: 20px;">
+                                        <a href="{% url 'list' children_category.slug %}">{{ children_category.title }}</a>
+                                        <span class="number">(08)</span>
+                                    </li>
+                                    {% endfor %}
+                                    {% endfor %}
+
+                                    <!-- <li>
+                                        <a href="#">Accessories</a>
+                                        <span class="number">(16)</span>
+                                    </li> -->
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="filter-block-shop filter-price">
+                            <div class="block-title">
+                                <h3>Фильтер по цене</h3>
+                            </div>
+                            <div class="block-content">
+                                <div class="price-range-holder">
+                                    <input type="text" class="price-slider" value="">
+                                    <span class="min-max">
+                                        Price: $990 - $3450
+                                    </span>
+                                    <span class="filter-button">
+                                        <a href="#">Фильтр</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                   
+                   
+          
+
+
+
+                        <div class="filter-block-shop filter-color">
+                            <div class="block-title">
+                                <h3>Color</h3>
+                            </div>
+                            <div class="block-content">
+                                <ul>
+                                    <li><a href="#"><i class="dot black-d"></i>Black </a></li>
+                                    <li><a href="#"><i class="dot blue-sky"></i>Blue </a></li>
+                                    <li><a href="#"><i class="dot brown"></i>Brown </a></li>
+                                    <li><a href="#"><i class="dot"></i>White </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-9 col-xs-12">
+                    <div class="filter-block bd">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="box box-view">
+                                    <span>Showing 1–12 of 40 results</span>
+                                    <div class="button-view">
+                                        <span class="col"><i class="ion-ios-keypad fa-3a"></i></span>
+                                        <span class="list"><i class="icon-grid-4"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7 margin-top3">
+                                <div class="box show pull-left">
+                                    <span>Show</span>
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown">12
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">12</a></li>
+                                        <li><a href="#">24</a></li>
+                                        <li><a href="#">36</a></li>
+                                    </ul>
+                                    <span>per page</span>
+                                </div>
+                                <div class="box sort pull-right">
+                                    <span>Sort by:</span>
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="menu2">
+                                        <span class="dropdown-label">Featured</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+                                        <li><a href="#" title="">Featured</a></li>
+                                        <li><a href="#" title="">Best Selling</a></li>
+                                        <li><a href="#" title="">Best Selling</a></li>
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="product-list grid_full grid_sidebar grid-uniform">
+
+                        {% for tovars in products %}
+                        <div class="product-list-item">
+                            <div class="product-item-img">
+                                <!-- style="width: 270px; height: 200px; object-fit: cover;" -->
+                                <a href="{% url 'deteil' tovars.slug %}"><img src="{{ tovars.img.url }}" alt="images" class="img-responsive"></a>
+                                <div class="label label-2 red label-top-20">Hot</div>
+                            </div>
+                            <div class="product-item-info">
+                                <h3><a href="{% url 'deteil' tovars.slug %}" title="">{{ tovars.title| truncatechars:55 }}</a></h3>
+                                <div class="product-item-star ratingstar sm">
+                                    <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                    <a href="#"><i class="fa fa-star-o fa-1" aria-hidden="true"></i></a>
+                                    <span class="number">(12)</span>
+                                </div>
+                                <div class="prod-price">
+                                    <span class="price black">{{ tovars.formattedprice }} рублей</span>
+                                </div>
+                            
+            
+                                <div class="button-ver2">
+                                    {% if request.user.is_authenticated %}
+                                    <a href="{% url 'cart_add' tovars.id %}" class="addcart-ver2" title="Add to cart"><span class="icon"></span>В
+                                        корзину</a>
+                                    {% else %}
+                                    <a href="{% url 'cart_add_anonim' tovars.id %}" class="addcart-ver2" title="Add to cart"><span class="icon"></span>В
+                                        корзину</a>
+                                    {% endif %}
+
+                                    <a href="{% url 'add_to_wish' tovars.id %}" class="wishlist" title="wishlist"><i class="ion-heart fa-4"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                        
+                    </div>
+                    <div class="product-pagination">
+                        <ul class="pagination">
+                            <li><a href="#"><i class="ion-chevron-left"></i></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">...</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#"><i class="ion-chevron-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

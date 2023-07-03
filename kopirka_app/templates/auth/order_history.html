@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+<section class="shop-list-v2-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">История заказов</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="#home">Home</a></li>
+                <li><a class="active" href="#shop">Shop</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="widget-banner">
+            <a href="#" class="images"><img src="{% static 'shop/img/img_add/list5.jpg' %}" alt="images"
+                    class="img-responsive"></a>
+            <div class="banner-text">
+                <h2>Just Press</h2>
+                <p>Mini camera by Instax</p>
+            </div>
+            <div class="banner-button">
+                <a href="#" title="button" class="btn-getit">Get It</a>
+            </div>
+        </div>
+
+
+        <div class="widget-product-list">
+            <div class="row">
+                <div class="col-md-3 col-xs-12">
+                    <div class="filter-block">
+
+
+
+                        <div class="filter-block-shop filter-cate">
+                            <div class="block-title">
+                                <h3>Категории</h3>
+                            </div>
+                            <div class="block-content">
+                                <ul>
+
+                                    {% for categor in category %}
+
+                                    {% if not categor.children.all %}
+                                    <li class="active">
+                                        <a  href="{% url 'list' categor.slug %}">{{ categor.title }}</a>
+                                        {% endif %}
+                                        {% if categor.children.all %}
+                                        <p style="font-weight: bold;">{{ categor.title }}</p>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for children_category in categor.children.all %}
+                                    <li>
+                                        <a href="{% url 'list' children_category.slug %}">{{ children_category.title }}</a>
+                                    </li>
+                                    {% endfor %}
+                                    {% endfor %}
+
+                                    <!-- <li>
+                                        <a href="#">Accessories</a>
+                                        <span class="number">(16)</span>
+                                    </li> -->
+
+                                    <!-- <li>
+                                        <a href="#">Accessories</a>
+                                        <span class="number">(16)</span>
+                                    </li> -->
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+
+                <div class="col-md-9 col-xs-12">
+                    <div class="filter-block bd">
+                        <div class="row">
+                           
+                        </div>
+                    </div>
+
+
+                    <div class="product-list grid_full grid_sidebar grid-uniform">
+
+                        <table class="table_history">
+                            <thead>
+                              <tr class="tr">
+                                <th class="thtd th">ID заказа</th>
+                                <th class="thtd th">Имя</th>
+                                <th class="thtd th">Фамилия</th>
+                                <th class="thtd th">Почта</th>
+                                <th class="thtd th">Телефон</th>
+                                <th class="thtd th">Город</th>
+                                <th class="thtd th">Сумма</th>
+                                <th class="thtd th">Дата заказа</th>
+                                <th class="thtd th">Оплачен</th>
+                                <th class="thtd th">Статус</th>
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for orders in order %}
+                              <tr class="tr">
+                                    <td class="thtd">{{ orders.id }}</td>
+                                    <td class="thtd">{{ orders.first_name }}</td>
+                                    <td class="thtd">{{ orders.last_name }}</td>
+                                    <td class="thtd">{{ orders.email }}</td>
+                                    <td class="thtd">{{ orders.phone }}</td>
+                                    <td class="thtd">{{ orders.city }}</td>
+                                    <td class="thtd">{{ orders.total_price }} ₽</td>
+                                    <td class="thtd">{{ orders.created_at }}</td>
+                                    {% if orders.payment %}
+                                        <td class="thtd" style="background-color:forestgreen;color: black;">Да</td>
+                                    {% else %}
+                                     <td class="thtd" style="background-color: red; color: black;">Нет</td>
+                                    {% endif %}
+                                    <td class="thtd">{{ orders.get_status_display }}</td>
+                              </tr>
+                              <tr class="tr">
+                                <td></td>
+                                <td class="thtd" colspan="9">
+                                  <ul class="ul-tabl">
+                                    {% for item in orders.ord.all %}
+                                    <li class="li-tabl">- {{ item.product.title }} -x{{ item.quantity }}</li>
+                                    {% endfor %}
+                                  </ul>
+                                </td>
+                              </tr>
+                              {% endfor %}
+
+
+
+                           
+                          
+                    
+                            </tbody>
+                          </table>
+
+
+
+
+
+
+                    </div>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+<section class="shop-list-v2-page">
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Личный кабинет</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="#home">Home</a></li>
+                <li><a class="active" href="#shop">Shop</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="widget-banner">
+            <a href="#" class="images"><img src="{% static 'shop/img/img_add/list5.jpg' %}" alt="images"
+                    class="img-responsive"></a>
+            <div class="banner-text">
+                <h2>Just Press</h2>
+                <p>Mini camera by Instax</p>
+            </div>
+            <div class="banner-button">
+                <a href="#" title="button" class="btn-getit">Get It</a>
+            </div>
+        </div>
+
+
+        <div class="widget-product-list">
+            <div class="row">
+                <div class="col-md-3 col-xs-12">
+                    <div class="filter-block">
+
+
+
+                        <div class="filter-block-shop filter-cate">
+                            <div class="block-title">
+                                <h3>Категории</h3>
+                            </div>
+                            <div class="block-content">
+                                <ul>
+                                    {% for categor in category %}
+
+                                    {% if not categor.children.all %}
+                                    <li class="active">
+                                        <a  href="{% url 'list' categor.slug %}">{{ categor.title }}</a>
+                                        {% endif %}
+                                        {% if categor.children.all %}
+                                        <p style="font-weight: bold;">{{ categor.title }}</p>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for children_category in categor.children.all %}
+                                    <li>
+                                        <a href="{% url 'list' children_category.slug %}">{{ children_category.title }}</a>
+                                    </li>
+                                    {% endfor %}
+                                    {% endfor %}
+
+                                    <!-- <li>
+                                        <a href="#">Accessories</a>
+                                        <span class="number">(16)</span>
+                                    </li> -->
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-9 col-xs-12">
+                    <div class="filter-block bd">
+                        <div class="row">
+                           
+                        </div>
+                    </div>
+
+
+                    <div class="product-list grid_full grid_sidebar grid-uniform">
+
+
+                        <div class="grid-container">
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'cart' %}"class="grid-item"><span class="person_block_span">Корзина</span></a>
+                            {% else %}
+                            <a href="{% url 'cart_anonim' %}"class="grid-item"><span class="person_block_span">Корзина</span></a>
+                            {% endif %}
+                           
+                            <a href="{% url 'wish' %}"class="grid-item"><span class="person_block_span">Список желаний</span></a>
+                            <a href="{% url 'order_history' %}"class="grid-item"><span class="person_block_span">История заказов</span></a>
+                            <a href="{% url 'person_data' %}"class="grid-item"><span class="person_block_span">Личные данные</span></a>
+                            <a href=""class="grid-item"><span class="person_block_span">Контакты</span></a>
+                          
+                        </div>
+
+                   
+                  
+                    </div>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

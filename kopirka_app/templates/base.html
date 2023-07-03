@@ -1,0 +1,343 @@
+{% load static %}
+
+{% load cart_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>ClickBuy</title>
+    <link rel="stylesheet" href="{% static 'shop/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/bootstrap-slider.css' %}"> 
+    <link rel="stylesheet" href="{% static 'shop/css/font-awesome.css' %}"> 
+    <link rel="stylesheet" href="{% static 'shop/css/ionicons.min.css' %}"> 
+    <link rel="stylesheet" href="{% static 'shop/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'shop/js/jquery.js' %}"></script>
+</head>
+
+<body>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Поиск товара</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <form method="get" class="searchform" action="/search" role="search">
+                            <input type="hidden" name="type" value="product">
+                            <input type="text" name="q" class="form-control control-search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default button_search" type="button"><i data-toggle="dropdown"
+                                        class="ion-ios-search"></i></button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div class="topbar-mobile hidden-lg hidden-md">
+            <div class="active-mobile">
+                <div class="language-popup dropdown">
+         
+                    <ul class="dropdown-menu" aria-labelledby="label">
+                       
+                        <li><a href="#">Vietnamese</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="right-nav">
+                <div class="active-mobile">
+                    <div class="header_user_info popup-over e-scale hidden-lg hidden-md dropdown">
+                        <div data-toggle="dropdown" class="popup-title dropdown-toggle" title="Account">
+                            <i class="ion-android-person"></i><span> Аккаунт</span>
+                        </div>
+                        <ul class="links dropdown-menu list-unstyled">
+                            <li>
+                                <a id="customer_login_link" href="#" title="Sign in"><i class="ion-log-in"></i>
+                                    Login</a>
+                            </li>
+                            <li>
+                                <a id="customer_register_link" href="#" title="Register"><i
+                                        class="ion-ios-personadd"></i> Register</a>
+                            </li>
+                            <li>
+                                <a class="account" rel="nofollow" href="#" title="My account"><i
+                                        class="ion-ios-person"></i> My account</a>
+                            </li>
+                            <li>
+                                <a id="wishlist-total" title="Wishlist" href="#"><i class="ion-ios-heart"></i>
+                                    Wishlist</a>
+                            </li>
+                            <li>
+                                <a href="#" title="Check out"><i class="ion-ios-cart"></i> Check out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="active-mobile search-popup pull-right">
+                    <div class="search-popup dropdown" data-toggle="modal" data-target="#myModal">
+                        <i class="ion-search fa-3a"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="top-nav hidden-xs hidden-sm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                        <div class="left-nav">
+                            <div class="location dropdown">
+                                <a id="label1" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="icon"><i class="ion-ios-location" aria-hidden="true"></i></span>
+                                    <span>Наши магазины</span>
+                                    <span class="ion-chevron-down"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="label1">
+                                    <li><a href="#">Донецк</a></li>
+
+                                </ul>
+                            </div>
+                      
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <div class="right-nav">
+                            <ul>
+
+                                {% if user.is_authenticated %}
+                                <li><a href="{% url 'wish' %}"><i class="ion-ios-heart fa-1a" aria-hidden="true"></i>Список желаний</a>
+                                </li>
+                              
+                                <li><a href="{% url 'personal_account' %}"><i class="ion-ios-personadd fa-1a"
+                                            aria-hidden="true"></i>Мой кабинет</a></li>|
+                                <li><a href="{% url 'logout' %}"><i class="ion-ios-personadd fa-1a"
+                                            aria-hidden="true"></i>Выйти</a></li>
+
+
+                                {% else %}
+                                <li><a href="{% url 'register' %}"><i class="ion-ios-personadd fa-1a"
+                                            aria-hidden="true"></i>Регистрация</a></li>
+                                <li><a href="{% url 'login' %}"><i class="ion-ios-personadd fa-1a"
+                                            aria-hidden="true"></i>Авторизация</a></li>
+
+                                {% endif %}
+
+
+
+                            </ul>
+                            <span class="phone">+7(949)417-46-30</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-8 col-xs-7 logo">
+                        <a href="#" title="Clickbuy"><img style="max-width: 40%;"
+                                src="{% static 'shop/img/logo_news.svg' %}" alt="images" class="img-reponsive"></a>
+                    </div>
+                    <div class="col-md-9 col-sm-4 col-xs-5 nextlogo">
+
+                       
+                   
+                    
+
+                    <div class="block block-1">
+                            <div class="protect">
+                                <div class="photo">
+                                    <svg width="28" height="33" id="Capa_1" data-name="Capa 1"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180.05 214.27">
+                                        <title>security</title>
+                                        <path
+                                            d="M196.93,55.17c-.11-5.78-.21-11.25-.21-16.54a7.5,7.5,0,0,0-7.5-7.5c-32.07,0-56.5-9.22-76.85-29a7.5,7.5,0,0,0-10.46,0c-20.35,19.79-44.77,29-76.84,29a7.5,7.5,0,0,0-7.5,7.5c0,5.29-.1,10.76-.22,16.54-1,53.84-2.44,127.57,87.33,158.68a7.49,7.49,0,0,0,4.91,0C199.36,182.74,198,109,196.93,55.17ZM107.13,198.81c-77-28-75.82-89.23-74.79-143.35.06-3.25.12-6.4.16-9.48,30-1.27,54.06-10.37,74.63-28.28,20.57,17.91,44.59,27,74.63,28.28,0,3.08.1,6.23.16,9.48C183,109.58,184.12,170.84,107.13,198.81Z"
+                                            transform="translate(-17.11 0)" />
+                                        <path
+                                            d="M133,81.08l-36.2,36.2L81.31,101.83a7.5,7.5,0,0,0-10.61,10.61l20.75,20.75a7.5,7.5,0,0,0,10.61,0l41.5-41.5A7.5,7.5,0,1,0,133,81.08Z"
+                                            transform="translate(-17.11 0)" />
+                                    </svg>
+                                </div>
+                                <p class="inform">
+                                    <span class="strong">Информация<br></span> Защищена
+                                </p>
+                            </div>
+                        </div>
+                        <div class="search hidden-xs hidden-sm">
+                            <form action="{% url 'search_view' %}" method="get" class="search-form">
+                                <input type="text" name="query" class="form-control" placeholder="Поиск товаров">
+                                <button type="submit" class="search-icon"></button>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block menu %}
+
+        {% endblock %}
+
+
+    </header>
+    <!-- /header -->
+
+
+
+    {% block content %}
+    {% endblock %}
+
+    <div class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12 fea-column-inner">
+                    <div class="fea-box">
+                        <div class="photo">
+                            <img src="img/gift.png" alt="images" class="img-reponsive">
+                        </div>
+                        <p class="inform-ver2">
+                            <span class="strong">Deal of the day<br></span> check out today's deal
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 fea-column-inner">
+                    <div class="fea-box">
+                        <div class="photo">
+                            <img src="img/fly.png" alt="images" class="img-reponsive">
+                        </div>
+                        <p class="inform-ver2">
+                            <span class="strong">Free Shipping<br></span> on thousands of products
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 fea-column-inner">
+                    <div class="fea-box">
+                        <div class="photo">
+                            <img src="img/return.png" alt="images" class="img-reponsive">
+                        </div>
+                        <p class="inform-ver2">
+                            <span class="strong">Easy Returns<br></span> on all purchases made
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 fea-column-inner">
+                    <div class="fea-box">
+                        <div class="photo">
+                            <img src="img/secu.png" alt="images" class="img-reponsive">
+                        </div>
+                        <p class="inform-ver2">
+                            <span class="strong">Best Services Medal<br></span> we are proud of best service
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <footer>
+        <div class="info">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-md-3 col-xs-12 ">
+                        <div class="photo">
+                            <a href="#"><img src="img/logo.png" alt="images" class="img-responsive"></a>
+                        </div>
+                        <p class="info-desc">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusant...
+                        </p>
+                        <div class="widget-info">
+                            <ul>
+                                <li><i class="ion-ios-location fa-4" aria-hidden="true"></i>Ленинский проспект, Донецк</li>
+                                <li class="clearfix"></li>
+                                <li><i class="ion-ios-telephone fa-4" aria-hidden="true"></i>
+                                    <p class="title-contain">+7(949)417-46-30</p>
+                                </li>
+                                <li class="clearfix"></li>
+                                <li><i class="ion-email-unread fa-4" aria-hidden="true"></i>
+                                    <p class="title-contain">kopirka_dn</p>
+                                </li>
+                                <li class="clearfix"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <h3>let us help you</h3>
+                                <ul class="fmenu">
+                                    <li><a href="#">your account</a></li>
+                                    <li><a href="#">your orders</a></li>
+                                    <li><a href="#">shipping rates & policies</a></li>
+                                    <li><a href="#">clickShop prime</a></li>
+                                    <li><a href="#">return & Replacements</a></li>
+                                    <li><a href="#">Manage Your Content and Devices</a></li>
+                                    <li><a href="#">ClickShop Assistant</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 col-xs-12 pd-left">
+                                <h3>useful links</h3>
+                                <ul class="fmenu">
+                                    <li><a href="#">Careers</a></li>
+                                    <li><a href="#">About ClickShop</a></li>
+                                    <li><a href="#">Investor Relations</a></li>
+                                    <li><a href="#">Our Devices</a></li>
+                                    <li><a href="#">Apps & Download</a></li>
+                                    <li><a href="#">Thinking</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <h3>Newsletter</h3>
+                        <p class="news-desc">Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et.</p>
+                        <form action="{% url 'contact' %}" method="post" class="news-letter-form">
+                            {% csrf_token %}
+                            <input type="email" name="email" class="form-control" placeholder="Введите почту">
+                            <button type="submit" class="btnsub">Подписаться</button>
+                        </form>
+                        <h3 class="titles">Найди нас в:</h3>
+                        <ul class="" >
+                            <li><a href="https://vk.com/kopirka_dn" style="background-color: cornflowerblue; padding: 5px; border-radius: 4px;">Вконтаке</a></li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+        <div class="copyright">
+            <div class="container">
+                <span>© <a href="#" title="">ClickBuy</a> - All Rights Reserved.</span>
+          
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript" src="{% static 'shop/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'shop/js/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'shop/js/slick.min.js' %}"></script>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="{% static 'shop/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'shop/js/bootstrap-slider.min.js' %}"></script>
+
+</body>
+
+</html>

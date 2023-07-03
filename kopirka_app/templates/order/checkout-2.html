@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags_menu %}
+
+{% block menu %}
+{% menu %}
+{% endblock %}
+
+
+{% block content %}
+
+<section class="checkout-page">
+    <form action="{% url 'order' %}" method="post">
+        {% csrf_token %}
+    <div class="container">
+        <div class="heading-sub">
+            <h3 class="pull-left">Формирование заказа</h3>
+            <ul class="other-link-sub pull-right">
+                <li><a href="#home">Гланая</a></li>
+                <li><a href="#shop">Корзина</a></li>
+                <li><a class="active" href="#cart">Заказ</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="checkout-1.html">01. Корзина</a>
+            </li>
+            <li>
+                <a href="checkout-2.html" class="active">02. Оформление заказа</a>
+            </li>
+            <li>
+                <a href="checkout-3.html" title="">03. Заказ отправлен</a>
+            </li>
+        </ul>
+        <div class="orders">
+         <div class="row">
+           
+
+                <div class="col-md-7">
+                
+                    <div class="billing-details">
+                        <div class="billing-details-heading">
+                            <h2 class="billing-title">
+                                    Заполните данные
+                                </h2>
+                        </div>
+                        <div class="billing-details-content">
+                            <div class="form-group">
+                                <div class="row">
+                                   
+                                    <div class="col-md-6 col-xs-12">
+                                        <strong>Ваше имя *</strong>
+                                        {{ form.first_name }}
+                                    </div>
+
+                                    <div class="col-md-6 col-xs-12">
+                                        <strong>Ваша фамилия *</strong>
+                                        {{ form.last_name }}
+                                    </div>
+                                </div>
+                            </div>
+                         
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-12">
+                                        <strong>Почта *</strong>
+                                        {{ form.email}}
+                                    </div>
+                                    <div class="col-md-6 col-xs-12">
+                                        <strong>Телефон *</strong>
+                                        {{form.phone}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong>Город</strong>
+                                        {{ form.city }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong>Адрес *</strong>
+                                        {{ form.address }}
+                                    </div>
+                                </div>
+                            </div>
+                       
+
+                       
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong>Примечание к заказу</strong>
+                                        {{ form.note_order }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+         
+
+                <div class="col-md-5">
+                    <div class="aside-order">
+                        <h2>Ваш заказ</h2>
+                        <table class="table table-product">
+                            <thead>
+                                <tr>
+                                    <th>Товар</th>
+                                    <th></th>
+                                    <th>Итого</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td class="product-name">{{ item.product.title }}</td>
+                                    <td class="product-quantity" style="margin: 0px;padding: 0px; width: 70px; align-items: center;text-align: center; padding-top: 20px;">x {{item.quantity}}</td>
+                                    <td class="product-total">{{ item.price }} </td>
+                                </tr>
+                                {% endfor %}
+                                
+                            </tbody>
+                        </table>
+                        <ul class="tabs-first">
+                            <!-- <li><span class="text">Subtotal:</span><span class="cart-number sub-number pull-right">$1,750.00</span></li>
+                            <li><span class="text">Shipping:</span>
+                                <div class="shipping">
+                                    <form action="#">
+                                        <input type="radio" name="gender" value="Flat" id="radio1" checked="checked">
+                                        <label for="radio1">FLAT RATE: <span class="shipping-number">$12.00</span></label>
+                                        <input type="radio" name="gender" value="Free" id="radio2">
+                                        <label for="radio2">Free Shipping</label>
+                                        <input type="radio" name="gender" value="Delivery" id="radio3">
+                                        <label for="radio3">FLAT RATE: <span class="shipping-number">$60.00</span></label>
+                                        <input type="radio" name="gender" value="Local-Delivery" id="radio4">
+                                        <label for="radio4">LOCAL DELIVERY: <span class="shipping-number indent">$5.00</span></label>
+                                    </form>
+                                </div>
+                                <div class="clearfix"></div>
+                            </li> -->
+                            <div class="order-transfer clearfix">
+                                <ul class="tabs">
+                                    <h4 style="padding-bottom:10px ;">Укажите способ доставки</h4>
+                                    {{ form.delivery_method }}
+                               
+                                </ul>
+                            </div>
+                            <li><span class="text">Всего вышло:</span><span class="cart-number big-total-number pull-right">{{ cart.total_price }} ₽</span></li>
+                        </ul>
+                        <!-- <div class="order-transfer clearfix">
+                            <ul class="tabs">
+                                <li class="active">
+                                    <i class="icon"></i>
+                                    <h4>Direct Bank Transfer
+                                        <span>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account. </span></h4>
+                                </li>
+                                <li>
+                                    <i class="icon"></i>
+                                    <h4>Check Payments</h4>
+                                </li>
+                                <li>
+                                    <i class="icon"></i>
+                                    <h4>Cash On Delivery</h4>
+                                </li>
+                            </ul>
+                        </div> -->
+                  
+                        <button type="submit" class="btn-order">Разместить заказ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</section>
+
+{% endblock %}
+
+
+    
+    
