@@ -19,23 +19,23 @@
 ### Инструменты разработки
 
 **Стек:**
-- Python >= 3.10
-- Django >= 4
+- Python 
+- Django 
 - PostgreSQL
 
 ## Разработка
 
-##### 1) Сделать форк репозитория и поставить звездочку)
-
 ##### 2) Клонировать репозиторий
 
-    git clone ссылка_сгенерированная_в_вашем_репозитории
+    git clone https://github.com/mi-bogdan/Sales-Information-System.git
 
 ##### 3) Создать виртуальное окружение
 
     python -m venv venv
     
 ##### 4) Активировать виртуальное окружение
+
+    venv/Scripts/activate
 
 ##### 5) Устанавливить зависимости:
 
@@ -53,8 +53,5 @@
 
     python manage.py runserver
 
-## License
-
-[BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause)
 
 Copyright (c) 2023-present, - Shnyra Bogdan
