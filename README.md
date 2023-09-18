@@ -39,7 +39,7 @@
 
 ##### 5) Устанавливить зависимости:
 
-    pip install -r req.txt
+    pip install -r requirements.txt
 
 ##### 6) Выполнить команду для выполнения миграций
 
